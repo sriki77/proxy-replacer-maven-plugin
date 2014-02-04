@@ -2,6 +2,7 @@ package com.google.code.maven_replacer_plugin;
 
 
 import com.google.code.maven_replacer_plugin.file.FileUtils;
+import org.apache.maven.plugin.logging.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +41,9 @@ public class ReplacementProcessorTest {
     @Mock
     private ProxyFileProcessor proxyFileProcessor;
 
+    @Mock
+    private Log log;
+
     private ReplacementProcessor processor;
 
     @Before
@@ -56,7 +60,7 @@ public class ReplacementProcessorTest {
     public void shouldWriteReplacedRegexTextToFile() throws Exception {
         when(replacer.replace(CONTENT, replacement, true, REGEX_FLAGS)).thenReturn(NEW_CONTENT);
 
-        processor.replace(asList(replacement), USE_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null);
+        processor.replace(asList(replacement), USE_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null, null);
         verify(fileUtils).writeToFile(OUTPUT_FILE, NEW_CONTENT, ENCODING);
     }
 
@@ -64,7 +68,7 @@ public class ReplacementProcessorTest {
     public void shouldWriteReplacedNonRegexTextToFile() throws Exception {
         when(replacer.replace(CONTENT, replacement, false, REGEX_FLAGS)).thenReturn(NEW_CONTENT);
 
-        processor.replace(asList(replacement), NO_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null);
+        processor.replace(asList(replacement), NO_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null, null);
         verify(fileUtils).writeToFile(OUTPUT_FILE, NEW_CONTENT, ENCODING);
     }
 
@@ -72,7 +76,7 @@ public class ReplacementProcessorTest {
     public void shouldThrowExceptionIfNoToken() throws Exception {
         when(replacement.getToken()).thenReturn(null);
 
-        processor.replace(asList(replacement), USE_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null);
+        processor.replace(asList(replacement), USE_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null, null);
         verifyZeroInteractions(fileUtils);
     }
 
@@ -80,7 +84,7 @@ public class ReplacementProcessorTest {
     public void shouldThrowExceptionIfEmptyToken() throws Exception {
         when(replacement.getToken()).thenReturn("");
 
-        processor.replace(asList(replacement), USE_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null);
+        processor.replace(asList(replacement), USE_REGEX, FILE, OUTPUT_FILE, REGEX_FLAGS, ENCODING, null, null, null, null, null);
         verifyZeroInteractions(fileUtils);
     }
 
@@ -96,13 +100,13 @@ public class ReplacementProcessorTest {
 
         when(replacer.replace(CONTENT, replacement, true, REGEX_FLAGS)).thenReturn(NEW_CONTENT);
 
-        processor.replace(asList(replacement),USE_REGEX,inFile,outFile,REGEX_FLAGS,ENCODING,"../policies","../policies","../ressources/jsc","../ressources/jsc");
+        processor.replace(asList(replacement),USE_REGEX,inFile,outFile,REGEX_FLAGS,ENCODING,"../policies","../policies","../ressources/jsc","../ressources/jsc", log);
 
 
         verify(fileUtils).writeToFile(outFile, NEW_CONTENT, ENCODING);
         verify(replacement).isProxy();
         verify(replacement).getValueFile();
         verify(proxyFileProcessor).process(eq(valueFile),endsWith("/apiproxy/policies"), endsWith("/target/apiproxy/policies"),
-                endsWith("/apiproxy/ressources/jsc"),endsWith("/target/apiproxy/ressources/jsc"));
+                endsWith("/apiproxy/ressources/jsc"),endsWith("/target/apiproxy/ressources/jsc"),eq(log));
     }
 }

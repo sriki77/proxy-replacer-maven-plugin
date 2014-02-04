@@ -18,33 +18,31 @@ public class ProxyFileProcessor {
     private File policyLoc;
     private File resourceLoc;
     private File outputResourceLoc;
-    private final Log log;
+    private Log log;
     private Set<String> copyCache = new HashSet<String>();
 
-
-    public ProxyFileProcessor(Log log) {
-        this.log = log;
-    }
-
     private void initPaths(String proxyFile, String outputPolicyLoc, String policyLoc, String resourceLoc,
-                           String outputResourceLoc) {
+                           String outputResourceLoc, Log log) {
         this.proxyFile = new File(proxyFile);
         this.outputPolicyLoc = new File(outputPolicyLoc);
         this.policyLoc = new File(policyLoc);
         this.resourceLoc = new File(resourceLoc);
         this.outputResourceLoc = new File(outputResourceLoc);
+        this.log = log;
     }
 
     public void process(String proxyFile, String policyLoc, String outputPolicyLoc, String resourceLoc,
-                        String outputResourceLoc) throws IOException {
-        copyCache.clear();
-        initPaths(proxyFile, outputPolicyLoc, policyLoc, resourceLoc, outputResourceLoc);
+                        String outputResourceLoc, Log log) throws IOException {
+        int initalSize = copyCache.size();
+        initPaths(proxyFile, outputPolicyLoc, policyLoc, resourceLoc, outputResourceLoc, log);
         if (!validatePaths()) {
             return;
         }
         final List<String> polices = getPolicies(FileUtils.readLines(this.proxyFile));
         copyFiles(polices);
-        log.info(String.format("Copied %s files referenced by proxy %s.",copyCache.size(),proxyFile));
+        if (copyCache.size() - initalSize > 0) {
+            log.info(String.format("Copied %s files referenced by proxy %s.", copyCache.size() - initalSize, proxyFile));
+        }
     }
 
     private void copyFiles(List<String> policies) throws IOException {

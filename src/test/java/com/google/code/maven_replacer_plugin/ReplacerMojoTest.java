@@ -104,7 +104,7 @@ public class ReplacerMojoTest {
 		
 		assertSame(FILE, mojo.getFile());
 		verify(processor).replace(replacements, REGEX, BASE_DIR + File.separator + FILE, 
-				OUTPUT_FILE, REGEX_PATTERN_FLAGS, ENCODING, null,null,null,null);
+				OUTPUT_FILE, REGEX_PATTERN_FLAGS, ENCODING, null,null,null,null, log);
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, ENCODING, log);
 		verify(summaryBuilder).print(log);
 	}
@@ -130,7 +130,7 @@ public class ReplacerMojoTest {
 		mojo.setReplacements(replacements);
 		mojo.setFile(FILE);
 		mojo.execute();
-		verify(processor).replace(replacements, REGEX, FILE, OUTPUT_FILE, 0, null, null,null,null,null);
+		verify(processor).replace(replacements, REGEX, FILE, OUTPUT_FILE, 0, null, null,null,null,null, log);
 		verify(summaryBuilder).add(FILE, OUTPUT_FILE, null, log);
 		verify(summaryBuilder).print(log);
 	}
@@ -149,7 +149,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 		
 		assertSame(FILE, mojo.getFile());
-		verify(processor).replace(replacements, REGEX, FILE, OUTPUT_FILE, REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null);
+		verify(processor).replace(replacements, REGEX, FILE, OUTPUT_FILE, REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null, log);
 		verify(summaryBuilder).add(FILE, OUTPUT_FILE, NO_ENCODING_SET, log);
 		verify(summaryBuilder).print(log);
 	}
@@ -169,7 +169,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 
 		verify(processor).replace(replacements, REGEX, BASE_DIR + File.separator + FILE, 
-				OUTPUT_FILE, REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null);
+				OUTPUT_FILE, REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null, log);
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, NO_ENCODING_SET, log);
 		verify(summaryBuilder, never()).print(log);
 	}
@@ -190,7 +190,7 @@ public class ReplacerMojoTest {
 		assertSame(mojo.getIncludes(), includes);
 		assertSame(mojo.getExcludes(), excludes);
 		verify(processor).replace(argThat(replacementOf(null, VALUE, false, TOKEN)), eq(REGEX), eq(BASE_DIR  + File.separator + FILE),
-			eq(OUTPUT_FILE), anyInt(), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString());
+			eq(OUTPUT_FILE), anyInt(), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString(), eq(log));
 	}
 
 	@Test
@@ -209,7 +209,7 @@ public class ReplacerMojoTest {
 		assertSame(mojo.getFilesToInclude(), includes);
 		assertSame(mojo.getFilesToExclude(), excludes);
 		verify(processor).replace(argThat(replacementOf(null, VALUE, false, TOKEN)), eq(REGEX), eq(BASE_DIR + File.separator + FILE),
-			eq(OUTPUT_FILE), anyInt(), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString());
+			eq(OUTPUT_FILE), anyInt(), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString(), eq(log));
 	}
 
 	@Test
@@ -229,7 +229,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 
 		verify(processor).replace(replacements, 
-				REGEX, BASE_DIR  + File.separator + FILE, OUTPUT_FILE, REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null);
+				REGEX, BASE_DIR  + File.separator + FILE, OUTPUT_FILE, REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null, log);
 	}
 
 	@Test
@@ -251,7 +251,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 
 		verify(processor).replace(replacements, 
-				REGEX, BASE_DIR  + File.separator + FILE, OUTPUT_FILE, REGEX_PATTERN_FLAGS, ENCODING, null,null,null,null);
+				REGEX, BASE_DIR  + File.separator + FILE, OUTPUT_FILE, REGEX_PATTERN_FLAGS, ENCODING, null,null,null,null, log);
 	}
 
 	@Test
@@ -270,7 +270,7 @@ public class ReplacerMojoTest {
 		assertThat(mojo.getDelimiters(), equalTo(delimiters));
 		verify(processor).replace(argThat(replacementOf(null, VALUE, false, "@" + TOKEN + "@", "${" + TOKEN + "}")), 
 				eq(REGEX), eq(BASE_DIR  + File.separator + FILE), eq(OUTPUT_FILE), eq(REGEX_PATTERN_FLAGS), eq(NO_ENCODING_SET),
-                anyString(),anyString(),anyString(),anyString());
+                anyString(),anyString(),anyString(),anyString(), eq(log));
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, NO_ENCODING_SET, log);
 		verify(summaryBuilder).print(log);
 	}
@@ -288,7 +288,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 
 		verify(processor).replace(argThat(replacementOf(XPATH, VALUE, false, TOKEN)), eq(REGEX), eq(BASE_DIR  + File.separator + FILE),
-			eq(OUTPUT_FILE), eq(REGEX_PATTERN_FLAGS), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString());
+			eq(OUTPUT_FILE), eq(REGEX_PATTERN_FLAGS), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString(), eq(log));
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, NO_ENCODING_SET, log);
 		verify(summaryBuilder).print(log);
 	}
@@ -307,7 +307,7 @@ public class ReplacerMojoTest {
 
 		assertTrue(mojo.isUnescape());
 		verify(processor).replace(argThat(replacementOf(null, VALUE, true, TOKEN)), eq(REGEX), eq(BASE_DIR  + File.separator + FILE),
-			eq(OUTPUT_FILE), eq(REGEX_PATTERN_FLAGS), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString());
+			eq(OUTPUT_FILE), eq(REGEX_PATTERN_FLAGS), eq(NO_ENCODING_SET), anyString(),anyString(),anyString(),anyString(), eq(log));
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, NO_ENCODING_SET, log);
 		verify(summaryBuilder).print(log);
 	}
@@ -328,7 +328,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 
 		verify(processor).replace(argThat(replacementOf(null, VALUE, false, TOKEN)), eq(REGEX), eq(BASE_DIR  + File.separator + FILE),
-				eq(OUTPUT_FILE), eq(REGEX_PATTERN_FLAGS), eq(ENCODING), anyString(),anyString(),anyString(),anyString());
+				eq(OUTPUT_FILE), eq(REGEX_PATTERN_FLAGS), eq(ENCODING), anyString(),anyString(),anyString(),anyString(), eq(log));
 		verify(fileUtils).readFile(TOKEN_FILE, ENCODING);
 		verify(fileUtils).readFile(VALUE_FILE, ENCODING);
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, ENCODING, log);
@@ -348,7 +348,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 
 		verify(processor).replace(replacements, REGEX, BASE_DIR  + File.separator + FILE, OUTPUT_FILE,
-			REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null);
+			REGEX_PATTERN_FLAGS, NO_ENCODING_SET, null,null,null,null, log);
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, NO_ENCODING_SET, log);
 		verify(summaryBuilder).print(log);
 	}
@@ -367,7 +367,7 @@ public class ReplacerMojoTest {
 		mojo.execute();
 
 		assertThat(mojo.getVariableTokenValueMap(), equalTo(TOKEN_VALUE_MAP));
-		verify(processor).replace(replacements, true, BASE_DIR  + File.separator + FILE, OUTPUT_FILE, 0, ENCODING, null,null,null,null);
+		verify(processor).replace(replacements, true, BASE_DIR  + File.separator + FILE, OUTPUT_FILE, 0, ENCODING, null,null,null,null, log);
 		verify(summaryBuilder).add(BASE_DIR + File.separator + FILE, OUTPUT_FILE, ENCODING, log);
 		verify(summaryBuilder).print(log);
 	}

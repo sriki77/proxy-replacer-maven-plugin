@@ -1,6 +1,7 @@
 package com.google.code.maven_replacer_plugin;
 
 import com.google.code.maven_replacer_plugin.file.FileUtils;
+import org.apache.maven.plugin.logging.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,18 +22,18 @@ public class ReplacementProcessor {
 
     public void replace(List<Replacement> replacements, boolean regex, String file,
                         String outputFile, int regexFlags, String encoding, String srcPolicyDir,
-                        String outputPolicyDir, String srcResourceDir, String outputResourceDir) throws IOException {
+                        String outputPolicyDir, String srcResourceDir, String outputResourceDir, Log log) throws IOException {
         String content = fileUtils.readFile(file, encoding);
         for (Replacement replacement : replacements) {
             content = replaceContent(regex, regexFlags, content, replacement);
-            processProxyFiles(outputFile,srcPolicyDir,outputPolicyDir,srcResourceDir,outputResourceDir,replacement);
+            processProxyFiles(outputFile,srcPolicyDir,outputPolicyDir,srcResourceDir,outputResourceDir,replacement, log);
         }
 
         fileUtils.writeToFile(outputFile, content, encoding);
     }
 
     private void processProxyFiles(String outputFile, String srcPolicyDir, String outputPolicyDir,
-                                   String srcResourceDir, String outputResourceDir, Replacement replacement) throws IOException {
+                                   String srcResourceDir, String outputResourceDir, Replacement replacement, Log log) throws IOException {
 
         if(!replacement.isProxy()){
             return;
@@ -45,7 +46,7 @@ public class ReplacementProcessor {
         final File outFile = new File(outputFile);
         proxyFileProcessor.process(valueFile,buildLocRelativeTo(proxyFile,srcPolicyDir),
                 buildLocRelativeTo(outFile,outputPolicyDir),buildLocRelativeTo(proxyFile,srcResourceDir),
-                buildLocRelativeTo(outFile,outputResourceDir));
+                buildLocRelativeTo(outFile,outputResourceDir),log);
     }
 
     private String buildLocRelativeTo(File proxyFile, String srcDir) throws IOException {

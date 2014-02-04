@@ -44,8 +44,8 @@ public class ProxyFileProcessorTest {
 
     @Test
     public void shouldCopyAllPoliciesReferencedByProxyFile() throws IOException {
-        final ProxyFileProcessor proxyFileProcessor = new ProxyFileProcessor(log);
-        proxyFileProcessor.process(proxyFile, policyLoc, outputLoc, policyLoc,outputLoc);
+        final ProxyFileProcessor proxyFileProcessor = new ProxyFileProcessor();
+        proxyFileProcessor.process(proxyFile, policyLoc, outputLoc, policyLoc,outputLoc,log);
         assertThat(new File(policy_test_out, "assign_set_variables.xml").exists(), is(true));
         assertThat(new File(policy_test_out, "fault_invalid_secret.xml").exists(), is(true));
         assertThat(new File(policy_test_out, "js_add_trusted_headers.xml").exists(), is(true));

@@ -383,7 +383,7 @@ public class ReplacerMojo extends AbstractMojo {
         this.patternFlagsFactory = new PatternFlagsFactory();
         this.outputFilenameBuilder = new OutputFilenameBuilder();
         this.summaryBuilder = new SummaryBuilder();
-        this.proxyFileProcessor = new ProxyFileProcessor(getLog());
+        this.proxyFileProcessor = new ProxyFileProcessor();
         this.processor = new ReplacementProcessor(fileUtils, replacerFactory,this.proxyFileProcessor);
     }
 
@@ -476,7 +476,7 @@ public class ReplacerMojo extends AbstractMojo {
         try {
             processor.replace(replacements, regex, getBaseDirPrefixedFilename(inputFile),
                     outputFileName, patternFlagsFactory.buildFlags(regexFlags), encoding,
-                    srcPolicyDir,outputPolicyDir,srcResourceDir,outputResourceDir);
+                    srcPolicyDir,outputPolicyDir,srcResourceDir,outputResourceDir, getLog());
         } catch (PatternSyntaxException e) {
             if (!delimiters.isEmpty()) {
                 getLog().error(String.format(REGEX_PATTERN_WITH_DELIMITERS_MESSAGE, e.getMessage()));
