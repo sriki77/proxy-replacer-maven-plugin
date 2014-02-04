@@ -2,22 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.sriki77</groupId>
+    <groupId>com.apigee.cs</groupId>
     <artifactId>proxy-replacer-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <version>1.0</version>
-    <url>http://code.google.com/p/maven-replacer-plugin</url>
-    <name>proxy-replacer-plugin Maven Mojo</name>
+    <url>https://github.com/apigeecs/proxy-replacer-maven-plugin</url>
+    <name>Apigee Proxy Replacer Maven Mojo</name>
 
     <description>
-        Maven plugin to replace tokens in a given file with a value.
+        Maven plugin(https://code.google.com/p/maven-replacer-plugin/)
+        to replace tokens in a given file with a value.
         Enchanced handle API proxy fragments.
     </description>
     <scm>
-        <url>https://maven-replacer-plugin.googlecode.com/svn/replacer-1.5.2</url>
-        <connection>scm:svn:https://maven-replacer-plugin.googlecode.com/svn/replacer-1.5.2</connection>
-        <developerConnection>scm:svn:https://maven-replacer-plugin.googlecode.com/svn/tags/replacer-1.5.2
-        </developerConnection>
+        <url>https://github.com/apigeecs/proxy-replacer-maven-plugin</url>
+        <connection>scm:git:https://github.com/apigeecs/proxy-replacer-maven-plugin.git</connection>
+        <tag>master</tag>
     </scm>
 
     <properties>
