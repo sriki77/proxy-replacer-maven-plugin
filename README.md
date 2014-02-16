@@ -70,6 +70,9 @@ Following are the additional parameters added to the plugin
       default it is resources/jsc under the directory containing the replaced
       files. 
 
+Notes
+--------
+- The token replacement or replacer does not run on the files referenced by the proxy files. These are files that are newly copied to the *basedir* during the run of the plugin are not subjected to token replacement.
 
 Current State
 ------------------
@@ -77,7 +80,7 @@ The proxy replacer plugin copies all the policies referenced by the proxy xml fr
 
 We need to implement support to copy other extension proxies like Java and Python.
 
-Please feel free to contribute the same. If you need assistance do get in touch with me [Srikanth Seshadri](sseshadri@apigee.com) 
+Please feel free to contribute the same. If you need assistance do get in touch with  [Srikanth Seshadri](sseshadri@apigee.com)  or [Priyanky Thomas](priyanky@apigee.com).
 
 Acknowledgments
 ------------------------
