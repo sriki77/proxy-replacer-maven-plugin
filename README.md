@@ -1,4 +1,4 @@
-Proxy Replacer Maven Plugin
+~~ Proxy Replacer Maven Plugin ~~~ No longer supported.
 =======================
 [maven-replacer-plugin](https://code.google.com/p/maven-replacer-plugin/) is an excellent plugin to deal with token replacements. We have been using it to handle proxy replacements in Apigee. 
 
